@@ -1,0 +1,50 @@
+pragma solidity ^0.8.7;
+
+contract beach{
+    
+    enum StateType { 
+      OfferPlaced,
+      Accepted
+    }
+    
+    enum PaidType{
+        NotPaid,
+        Paid
+    }
+    
+    int number=0;
+    
+    int public Quantity;
+    StateType public State;
+    PaidType public Paid;
+    address public InstanceOwner;
+    
+    constructor (int quantity) {
+        InstanceOwner = msg.sender;
+        Quantity  = quantity;
+    }
+    
+    function AcceptOffer() public {
+        if ( msg.sender == InstanceOwner )
+        {
+            revert();
+        }
+
+        State = StateType.Accepted;
+        
+        number = number + Quantity;
+        
+    }
+    
+    function AcceptedQuantity() public view returns(int) {
+        return number;
+    }
+    
+    function paid() public {
+        if (msg.sender != InstanceOwner) {
+            revert();
+        }
+        
+        Paid = PaidType.Paid;
+    }
+}
